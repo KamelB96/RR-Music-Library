@@ -1,48 +1,45 @@
 import './App.css';
-import { useState, useRef } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
-import { DataContext } from './context/DataContext'
-import { SearchContext } from './context/SearchContext'
+import { createResource as fetchData } from './helper'
+import Spinner from './Spinner';
 
 function App() {
-    let [message, setMessage] = useState('Search for Music!')
- let [data, setData] = useState([])
- let searchInput = useRef('')
+  let [searchTerm, setSearchTerm] = useState('')
+  let [data, setData] = useState(null)
+  let [message, setMessage] = useState('Search for Music!')
+  
 
-    const API_URL = 'https://itunes.apple.com/search?term='
-    
-    const handleSearch = (e, term) => {
-        e.preventDefault()
-        // Fetch Data
-        const fetchData = async () => {
-            document.title = `${term} Music`
-            const response = await fetch(API_URL + term)
-            const resData = await response.json()
-            if (resData.results.length > 0) {
-                // Set State and Context value
-                return setData(resData.results)
-            } else {
-                return setMessage('Not Found')
-            }
-        }
-        fetchData()
+  useEffect(() => {
+    if (searchTerm) {
+        setData(fetchData(searchTerm))
     }
-    
-    return (
-        <div className="App">
-            <SearchContext.Provider value={{
-                term: searchInput,
-                handleSearch: handleSearch
-                }}>
-                <SearchBar />
-            </SearchContext.Provider>
-            {message}
-            <DataContext.Provider value={data}>
-                <Gallery />
-            </DataContext.Provider>
-        </div>
-    );
+}, [searchTerm])
+
+const handleSearch = (e, term) => {
+    e.preventDefault()
+    setSearchTerm(term)
+  }
+
+const renderGallery = () => {
+    if(data) {
+        return (
+            <Suspense fallback={<Spinner />}>
+                <Gallery data={data} />
+            </Suspense>
+        )
+    }
+}
+  
+  return (
+    <div className="App">
+        <SearchBar handleSearch={handleSearch} />
+        {message}
+        {renderGallery()}
+    </div>
+)
+;
 }
 
 export default App;

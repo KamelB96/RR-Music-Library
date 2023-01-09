@@ -15,7 +15,11 @@ function ArtistView() {
         }
         fetchData()
     }, [id])
+<<<<<<< HEAD
     
+=======
+     
+>>>>>>> with_suspense
     const justAlbums = artistData.filter(entry => entry.collectionType === 'Album')
 
     const renderAlbums = justAlbums.map((album, i) => {

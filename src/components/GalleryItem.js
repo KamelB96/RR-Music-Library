@@ -10,7 +10,10 @@ function GalleryItem(props){
         'border': '1px solid black',
         'margin': '2px'
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> with_suspense
     const detailStyle = {
         'width': '80vw',
         'height': '20vh',
@@ -23,7 +26,11 @@ function GalleryItem(props){
     }
 
     const simpleView = () => {
+<<<<<<< HEAD
         return (
+=======
+        return(
+>>>>>>> with_suspense
             <div style={simpleStyle}>
                 <h3>{props.item.trackName}</h3>
                 <h4>{props.item.collectionName}</h4>
@@ -51,6 +58,7 @@ function GalleryItem(props){
         )
     }
 
+<<<<<<< HEAD
     return (
         <div onClick={() =>setView(!view)} style={{'display': 'inline-block'}}>
             {/* This simple ternary shows the simple view when 'view' is false! */}
@@ -59,4 +67,15 @@ function GalleryItem(props){
     )
 }
 
+=======
+    return(
+        <div onClick={() => setView(!view)} style={{'display': 'inline-block'}}>
+            <p>One Gallery Item</p>
+            {view ? detailView() : simpleView()}
+        </div>
+    )
+
+}
+
+>>>>>>> with_suspense
 export default GalleryItem

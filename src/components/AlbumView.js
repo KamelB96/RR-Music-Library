@@ -15,7 +15,11 @@ function AlbumView() {
         }
         fetchData()
     }, [id])
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> with_suspense
     const justSongs = albumData.filter(entry => entry.wrapperType === 'track')
 
     const renderSongs = justSongs.map((song, i) => {
